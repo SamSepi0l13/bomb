@@ -29,22 +29,22 @@ export const Keyboard: React.FC<KeyboardProps> = ({
   };
 
   const getKeyClass = (key: string, keyStatus: string) => {
-    const baseClass = "px-2 py-3 rounded-lg font-semibold text-sm transition-all duration-200 transform hover:scale-105 active:scale-95 select-none cursor-pointer";
+    const baseClass = "px-3 py-3 rounded font-semibold text-sm font-mono transition-all duration-200 transform hover:scale-105 active:scale-95 select-none cursor-pointer border";
     const isSpecial = key === 'ENTER' || key === 'DELETE';
-    const widthClass = isSpecial ? 'px-4 min-w-[65px]' : 'min-w-[40px]';
+    const widthClass = isSpecial ? 'px-4 min-w-[70px]' : 'min-w-[42px]';
     
     if (disabled) {
-      return `${baseClass} ${widthClass} bg-slate-700/50 text-slate-500 cursor-not-allowed hover:scale-100`;
+      return `${baseClass} ${widthClass} bg-[#2d2d2d] border-[#464647] text-[#969696] cursor-not-allowed hover:scale-100`;
     }
 
     if (keyStatus === 'correct') {
-      return `${baseClass} ${widthClass} bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg shadow-green-500/25 hover:shadow-green-500/40`;
+      return `${baseClass} ${widthClass} bg-[#4ec9b0] border-[#4ec9b0] text-[#1e1e1e] shadow-lg`;
     } else if (keyStatus === 'present') {
-      return `${baseClass} ${widthClass} bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-lg shadow-yellow-500/25 hover:shadow-yellow-500/40`;
+      return `${baseClass} ${widthClass} bg-[#dcdcaa] border-[#dcdcaa] text-[#1e1e1e] shadow-lg`;
     } else if (keyStatus === 'absent') {
-      return `${baseClass} ${widthClass} bg-gradient-to-br from-gray-600 to-gray-700 text-gray-300 shadow-lg shadow-gray-500/25`;
+      return `${baseClass} ${widthClass} bg-[#3e3e3e] border-[#464647] text-[#969696] shadow-md`;
     } else {
-      return `${baseClass} ${widthClass} bg-gradient-to-br from-slate-700 to-slate-800 text-slate-200 hover:from-slate-600 hover:to-slate-700 shadow-lg shadow-slate-500/25 hover:shadow-slate-500/40 border border-slate-600/50`;
+      return `${baseClass} ${widthClass} bg-[#2d2d2d] border-[#464647] text-[#d4d4d4] hover:bg-[#3e3e3e] hover:border-[#569cd6] hover:text-[#569cd6] shadow-md`;
     }
   };
 
@@ -81,7 +81,12 @@ export const Keyboard: React.FC<KeyboardProps> = ({
   }, [onKeyPress, onDelete, onEnter, disabled]);
 
   return (
-    <div className="w-full max-w-lg mx-auto p-4 space-y-2">
+    <div className="w-full max-w-lg mx-auto p-4 space-y-3">
+      {/* Vim-style keyboard header */}
+      <div className="text-center text-[#6a9955] text-sm font-mono mb-4">
+        " Use o teclado físico ou clique nas teclas "
+      </div>
+      
       {keyRows.map((row, rowIndex) => (
         <div key={rowIndex} className="flex gap-1 justify-center">
           {row.map((key) => {
@@ -95,6 +100,8 @@ export const Keyboard: React.FC<KeyboardProps> = ({
               >
                 {key === 'DELETE' ? (
                   <Delete size={16} />
+                ) : key === 'ENTER' ? (
+                  '⏎'
                 ) : (
                   key
                 )}

@@ -11,7 +11,7 @@ interface NotificationProps {
 export const Notification: React.FC<NotificationProps> = ({
   message,
   type = 'info',
-  duration = 1500, // Reduzido de 3000 para 1500ms
+  duration = 1500,
   onClose
 }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -21,11 +21,10 @@ export const Notification: React.FC<NotificationProps> = ({
     if (duration > 0) {
       const timer = setTimeout(() => {
         setIsLeaving(true);
-        // Animação de saída mais rápida
         setTimeout(() => {
           setIsVisible(false);
           onClose?.();
-        }, 150); // Reduzido de 300 para 150ms
+        }, 150);
       }, duration);
 
       return () => clearTimeout(timer);
@@ -35,22 +34,33 @@ export const Notification: React.FC<NotificationProps> = ({
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle size={18} className="text-green-400 flex-shrink-0" />;
+        return <CheckCircle size={16} className="text-[#4ec9b0] flex-shrink-0" />;
       case 'error':
-        return <AlertCircle size={18} className="text-red-400 flex-shrink-0" />;
+        return <AlertCircle size={16} className="text-[#f44747] flex-shrink-0" />;
       default:
-        return <Info size={18} className="text-blue-400 flex-shrink-0" />;
+        return <Info size={16} className="text-[#569cd6] flex-shrink-0" />;
     }
   };
 
   const getBgColor = () => {
     switch (type) {
       case 'success':
-        return 'bg-green-900/95 border-green-600/60 shadow-green-500/20';
+        return 'bg-[#2d2d2d] border-[#4ec9b0]';
       case 'error':
-        return 'bg-red-900/95 border-red-600/60 shadow-red-500/20';
+        return 'bg-[#2d2d2d] border-[#f44747]';
       default:
-        return 'bg-blue-900/95 border-blue-600/60 shadow-blue-500/20';
+        return 'bg-[#2d2d2d] border-[#569cd6]';
+    }
+  };
+
+  const getPrefix = () => {
+    switch (type) {
+      case 'success':
+        return ':echo';
+      case 'error':
+        return ':echoerr';
+      default:
+        return ':echom';
     }
   };
 
@@ -58,17 +68,15 @@ export const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-lg border backdrop-blur-md shadow-xl transition-all duration-150 ease-out transform ${
+      className={`fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-3 rounded border backdrop-blur-md shadow-xl transition-all duration-150 ease-out transform font-mono ${
         isLeaving 
           ? 'translate-x-full opacity-0 scale-95' 
           : 'translate-x-0 opacity-100 scale-100'
       } ${getBgColor()}`}
-      style={{
-        animation: isLeaving ? 'slideOut 150ms ease-in forwards' : 'slideIn 200ms ease-out'
-      }}
     >
+      <span className="text-[#6a9955] text-sm">{getPrefix()}</span>
       {getIcon()}
-      <span className="text-white text-sm font-medium leading-tight">{message}</span>
+      <span className="text-[#d4d4d4] text-sm font-medium leading-tight">{message}</span>
     </div>
   );
 };

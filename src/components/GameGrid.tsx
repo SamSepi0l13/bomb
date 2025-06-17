@@ -42,41 +42,64 @@ export const GameGrid: React.FC<GameGridProps> = ({
     }
   };
 
-  const getCellClass = (status: string, isCurrentRow: boolean) => {
-    const baseClass = "w-14 h-14 border-2 rounded-lg flex items-center justify-center text-2xl font-bold transition-all duration-300 transform";
+  const getCellClass = (status: string, isCurrentRow: boolean, hasLetter: boolean) => {
+    const baseClass = "w-14 h-14 border-2 rounded flex items-center justify-center text-2xl font-bold font-mono transition-all duration-300 transform";
     
     if (status === 'correct') {
-      return `${baseClass} bg-gradient-to-br from-green-500 to-green-600 border-green-400 text-white shadow-lg shadow-green-500/25 animate-flip`;
+      return `${baseClass} bg-[#4ec9b0] border-[#4ec9b0] text-[#1e1e1e] shadow-lg animate-flip`;
     } else if (status === 'present') {
-      return `${baseClass} bg-gradient-to-br from-yellow-500 to-yellow-600 border-yellow-400 text-white shadow-lg shadow-yellow-500/25 animate-flip`;
+      return `${baseClass} bg-[#dcdcaa] border-[#dcdcaa] text-[#1e1e1e] shadow-lg animate-flip`;
     } else if (status === 'absent') {
-      return `${baseClass} bg-gradient-to-br from-gray-600 to-gray-700 border-gray-500 text-white shadow-lg shadow-gray-500/25 animate-flip`;
-    } else if (isCurrentRow && status === 'empty') {
-      return `${baseClass} bg-slate-800/50 border-purple-600/50 text-white hover:border-purple-500 hover:bg-slate-700/50`;
+      return `${baseClass} bg-[#3e3e3e] border-[#464647] text-[#969696] shadow-lg animate-flip`;
+    } else if (isCurrentRow && hasLetter) {
+      return `${baseClass} bg-[#2d2d2d] border-[#569cd6] text-[#d4d4d4] shadow-md`;
+    } else if (isCurrentRow) {
+      return `${baseClass} bg-[#2d2d2d] border-[#464647] text-[#d4d4d4] hover:border-[#569cd6] hover:bg-[#3e3e3e]`;
     } else {
-      return `${baseClass} bg-slate-800/30 border-slate-700/50 text-slate-400`;
+      return `${baseClass} bg-[#1e1e1e] border-[#464647] text-[#969696]`;
     }
   };
 
   return (
-    <div className="flex flex-col gap-2 p-6">
+    <div className="flex flex-col gap-3 p-6">
+      {/* Line numbers - Vim style */}
+      <div className="flex items-center justify-center mb-2">
+        <span className="text-[#6a9955] text-sm font-mono">
+          " {maxAttempts} tentativas disponíveis "
+        </span>
+      </div>
+      
       {Array(maxAttempts).fill(0).map((_, rowIndex) => {
         const rowData = getRowData(rowIndex);
         const isCurrentRow = rowIndex === guesses.length;
         
         return (
-          <div key={rowIndex} className="flex gap-2 justify-center">
-            {rowData.map((cell, cellIndex) => (
-              <div
-                key={cellIndex}
-                className={getCellClass(cell.status, isCurrentRow)}
-                style={{
-                  animationDelay: rowIndex < guesses.length ? `${cellIndex * 100}ms` : '0ms'
-                }}
-              >
-                {cell.letter}
+          <div key={rowIndex} className="flex gap-3 justify-center items-center">
+            {/* Vim-style line number */}
+            <div className="w-6 text-right text-[#6a9955] text-sm font-mono">
+              {rowIndex + 1}
+            </div>
+            
+            <div className="flex gap-2">
+              {rowData.map((cell, cellIndex) => (
+                <div
+                  key={cellIndex}
+                  className={getCellClass(cell.status, isCurrentRow, !!cell.letter)}
+                  style={{
+                    animationDelay: rowIndex < guesses.length ? `${cellIndex * 100}ms` : '0ms'
+                  }}
+                >
+                  {cell.letter}
+                </div>
+              ))}
+            </div>
+            
+            {/* Current line indicator */}
+            {isCurrentRow && (
+              <div className="text-[#569cd6] text-sm font-mono ml-2">
+                ←
               </div>
-            ))}
+            )}
           </div>
         );
       })}

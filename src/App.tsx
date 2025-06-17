@@ -5,7 +5,6 @@ import { Keyboard } from './components/Keyboard';
 import { HelpModal } from './components/HelpModal';
 import { Notification } from './components/Notification';
 import { useGame } from './hooks/useGame';
-import { Loader2 } from 'lucide-react';
 
 function App() {
   const {
@@ -27,26 +26,42 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#1e1e1e] flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center">
-            <img src="/assets/images/PalaMago.png" alt="PalaMago" className="w-16 h-16 animate-pulse" />
+            <div className="w-16 h-16 bg-[#569cd6] rounded-lg flex items-center justify-center animate-pulse">
+              <span className="text-[#1e1e1e] font-bold text-2xl font-mono">V</span>
+            </div>
           </div>
-          <p className="text-purple-300 text-lg">Carregando PalaMago...</p>
+          <p className="text-[#569cd6] text-lg font-mono">Carregando PalaVrim...</p>
+          <div className="flex items-center justify-center space-x-1">
+            <div className="w-2 h-2 bg-[#569cd6] rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-[#569cd6] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-[#569cd6] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col">
+    <div className="min-h-screen bg-[#1e1e1e] text-[#d4d4d4] flex flex-col font-mono">
       <GameHeader
         onShowHelp={() => setShowHelp(true)}
         onRestart={restartGame}
       />
       
-      <main className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full py-4">
-        <div className="w-full space-y-6">
+      {/* Vim-style status line */}
+      <div className="bg-[#569cd6] text-[#1e1e1e] px-4 py-1 text-sm font-semibold">
+        <div className="max-w-2xl mx-auto flex justify-between items-center">
+          <span>NORMAL</span>
+          <span>Tentativas: {gameState.guesses.length}/{gameState.maxAttempts}</span>
+          <span>Palavra: {wordLength} letras</span>
+        </div>
+      </div>
+      
+      <main className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full py-8">
+        <div className="w-full space-y-8">
           <GameGrid
             guesses={gameState.guesses}
             currentGuess={gameState.currentGuess}
@@ -65,34 +80,60 @@ function App() {
         </div>
 
         {gameState.gameStatus !== 'playing' && (
-          <div className="mt-6 text-center space-y-4">
-            <div className="p-6 bg-slate-800/50 backdrop-blur-sm rounded-xl border border-purple-800/30">
+          <div className="mt-8 text-center space-y-4">
+            <div className="p-6 bg-[#2d2d2d] border border-[#464647] rounded-lg">
               {gameState.gameStatus === 'won' ? (
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-green-400">🎉 Parabéns!</h3>
-                  <p className="text-slate-300">
-                    Você descobriu a palavra em {gameState.guesses.length} tentativa{gameState.guesses.length !== 1 ? 's' : ''}!
+                <div className="space-y-3">
+                  <div className="text-2xl font-bold text-[#4ec9b0] font-mono">
+                    :wq! SUCCESS
+                  </div>
+                  <p className="text-[#d4d4d4]">
+                    Palavra descoberta em {gameState.guesses.length} tentativa{gameState.guesses.length !== 1 ? 's' : ''}!
                   </p>
+                  <div className="text-sm text-[#6a9955] font-mono">
+                    " Excelente trabalho, usuário do Vim! "
+                  </div>
                 </div>
               ) : (
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-red-400">😔 Que pena!</h3>
-                  <p className="text-slate-300">
-                    A palavra era: <span className="font-bold text-purple-300">{palavraCorreta}</span>
+                <div className="space-y-3">
+                  <div className="text-2xl font-bold text-[#f44747] font-mono">
+                    :q! GAME OVER
+                  </div>
+                  <p className="text-[#d4d4d4]">
+                    A palavra era: <span className="font-bold text-[#dcdcaa]">{palavraCorreta}</span>
                   </p>
+                  <div className="text-sm text-[#6a9955] font-mono">
+                    " Não desista, continue praticando! "
+                  </div>
                 </div>
               )}
               
               <button
                 onClick={restartGame}
-                className="mt-4 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-purple-800 transition-all duration-200 transform hover:scale-105 shadow-lg shadow-purple-500/25"
+                className="mt-4 px-6 py-3 bg-[#569cd6] text-[#1e1e1e] font-semibold rounded font-mono hover:bg-[#4fc1ff] transition-colors duration-200 border border-[#569cd6] hover:border-[#4fc1ff]"
               >
-                Jogar Novamente
+                :new - Novo Jogo
               </button>
             </div>
           </div>
         )}
       </main>
+
+      {/* Vim command line */}
+      <div className="bg-[#1e1e1e] border-t border-[#464647] px-4 py-2">
+        <div className="max-w-2xl mx-auto flex items-center space-x-2 text-sm">
+          <span className="text-[#569cd6]">:</span>
+          <span className="text-[#d4d4d4]">
+            {gameState.gameStatus === 'playing' 
+              ? `Digite uma palavra de ${wordLength} letras` 
+              : gameState.gameStatus === 'won' 
+                ? 'Parabéns! Pressione :new para jogar novamente'
+                : 'Game Over! Pressione :new para tentar novamente'
+            }
+          </span>
+          <span className="cursor-blink text-[#569cd6]">█</span>
+        </div>
+      </div>
 
       <HelpModal
         isOpen={showHelp}
@@ -103,18 +144,10 @@ function App() {
         <Notification
           key={notificationKey}
           message={notification}
-          type={notification.includes('Erro') || notification.includes('pena') || notification.includes('😔') ? 'error' : 
-                notification.includes('Parabéns') || notification.includes('🎉') ? 'success' : 'info'}
+          type={notification.includes('Erro') || notification.includes('pena') || notification.includes('OVER') ? 'error' : 
+                notification.includes('SUCCESS') || notification.includes('🎉') ? 'success' : 'info'}
         />
       )}
-
-      {/* Particles background effect */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-purple-500/20 rounded-full animate-pulse" />
-        <div className="absolute top-3/4 right-1/3 w-1 h-1 bg-pink-500/30 rounded-full animate-pulse delay-1000" />
-        <div className="absolute bottom-1/4 left-1/2 w-1.5 h-1.5 bg-purple-400/25 rounded-full animate-pulse delay-500" />
-        <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-pink-400/20 rounded-full animate-pulse delay-700" />
-      </div>
     </div>
   );
 }

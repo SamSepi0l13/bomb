@@ -4,36 +4,38 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/assets/images/PalaMago.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PalaMago - Jogo de palavras inspirado no Wordle com design elegante e interface intuitiva." />
-    <meta name="keywords" content="palavras, jogo, wordle, portugues, puzzle" />
-    <title>PalaMago - Jogo de Palavras</title>
+    <meta name="description" content="PalaVrim - Jogo de palavras inspirado no Vim com design terminal elegante." />
+    <meta name="keywords" content="palavras, jogo, wordle, vim, terminal, portugues, puzzle" />
+    <title>PalaVrim - Jogo de Palavras</title>
     
     <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#8b5cf6" />
+    <meta name="theme-color" content="#1e1e1e" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     
     <!-- Open Graph -->
-    <meta property="og:title" content="PalaMago - Jogo de Palavras" />
-    <meta property="og:description" content="Descubra a palavra secreta em até 6 tentativas!" />
+    <meta property="og:title" content="PalaVrim - Jogo de Palavras" />
+    <meta property="og:description" content="Descubra a palavra secreta em até 6 tentativas - estilo Vim!" />
     <meta property="og:type" content="website" />
     
     <style>
       /* Prevent flash of unstyled content */
       body {
-        background: linear-gradient(135deg, #0f172a, #581c87, #0f172a);
-        color: #e2e8f0;
+        background: #1e1e1e;
+        color: #d4d4d4;
         margin: 0;
         min-height: 100vh;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
       }
       
       /* Loading skeleton */
       .loading-skeleton {
-        background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+        background: linear-gradient(90deg, #2d2d2d 25%, #3e3e3e 50%, #2d2d2d 75%);
         background-size: 200% 100%;
         animation: loading 1.5s infinite;
       }
@@ -47,14 +49,14 @@
   <body>
     <div id="root">
       <!-- Loading fallback -->
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; background: #1e1e1e;">
         <div style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-          <img src="/assets/images/PalaMago.png" alt="PalaMago" style="width: 100%; height: 100%; object-fit: contain;" />
+          <div style="width: 100%; height: 100%; background: #569cd6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: #1e1e1e; font-size: 24px;">V</div>
         </div>
-        <div style="font-size: 24px; font-weight: bold; background: linear-gradient(45deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-          PalaMago
+        <div style="font-size: 24px; font-weight: bold; color: #569cd6; font-family: 'JetBrains Mono', monospace;">
+          PalaVrim
         </div>
-        <div style="width: 200px; height: 4px; background: #334155; border-radius: 2px; overflow: hidden;">
+        <div style="width: 200px; height: 4px; background: #2d2d2d; border-radius: 2px; overflow: hidden;">
           <div class="loading-skeleton" style="width: 100%; height: 100%; border-radius: 2px;"></div>
         </div>
       </div>
